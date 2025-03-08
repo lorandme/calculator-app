@@ -2,13 +2,17 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Calculator" Height="550" Width="350"
-        ResizeMode="NoResize">
+ >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Meniul -->
+            <!-- Meniu -->
+            <RowDefinition Height="Auto"/>
+            <!-- Display -->
             <RowDefinition Height="*"/>
-            <!-- Restul conținutului -->
+            <!-- Spacer -->
+            <RowDefinition Height="Auto"/>
+            <!-- All Buttons -->
         </Grid.RowDefinitions>
 
         <!-- Meniu -->
@@ -24,66 +28,90 @@
             </MenuItem>
         </Menu>
 
-        <!-- Restul interfeței -->
-        <Grid Grid.Row="1">
+        <!-- Zona de afișare -->
+        <TextBlock x:Name="DisplayText"
+                   Grid.Row="1" 
+                   Text="0" FontSize="32" 
+                   HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Padding="20" TextWrapping="Wrap"/>
+
+        <!-- All Buttons -->
+        <Grid Grid.Row="3">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <!-- Memory Buttons Row -->
+                <RowDefinition Height="Auto"/>
+                <!-- Numerical and Operational Buttons -->
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <!-- Butoane existente -->
-            <TextBlock Grid.Row="1" Grid.ColumnSpan="4"
-                       Text="0" FontSize="32" 
-                       HorizontalAlignment="Right" VerticalAlignment="Center"
-                       Padding="20" TextWrapping="Wrap"/>
+            <!-- Memory Buttons -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button Content="MC" Grid.Row="2" Grid.Column="0"/>
-            <Button Content="M+" Grid.Row="2" Grid.Column="1"/>
-            <Button Content="M-" Grid.Row="2" Grid.Column="2"/>
-            <Button Content="MR" Grid.Row="2" Grid.Column="3"/>
+                <Button Content="MC" Grid.Column="0" Height="25"/>
+                <Button Content="M+" Grid.Column="1" Height="25"/>
+                <Button Content="M-" Grid.Column="2" Height="25"/>
+                <Button Content="MS" Grid.Column="3" Height="25"/>
+                <Button Content="MR" Grid.Column="4" Height="25"/>
+                <Button Content="M>" Grid.Column="5" Height="25"/>
+            </Grid>
 
-            <Button Content="%" Grid.Row="3" Grid.Column="0"/>
-            <Button Content="CE" Grid.Row="3" Grid.Column="1"/>
-            <Button Content="C" Grid.Row="3" Grid.Column="2"/>
-            <Button Content="Backspace" Grid.Row="3" Grid.Column="3"/>
+            <!-- Numerical and Operational Buttons -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button Content="1/x" Grid.Row="4" Grid.Column="0"/>
-            <Button Content="X²" Grid.Row="4" Grid.Column="1"/>
-            <Button Content="²√X" Grid.Row="4" Grid.Column="2"/>
-            <Button Content="/" Grid.Row="4" Grid.Column="3"/>
+                <!-- Operational Buttons -->
+                <Button Content="%" Grid.Row="0" Grid.Column="0"/>
+                <Button Content="CE" Grid.Row="0" Grid.Column="1" Click="Clear_Click"/>
+                <Button Content="C" Grid.Row="0" Grid.Column="2" Click="ClearEntry_Click"/>
+                <Button Content="Backspace" Grid.Row="0" Grid.Column="3" Click="Backspace_Click"/>
 
-            <Button Content="7" Grid.Row="5" Grid.Column="0"/>
-            <Button Content="8" Grid.Row="5" Grid.Column="1"/>
-            <Button Content="9" Grid.Row="5" Grid.Column="2"/>
-            <Button Content="*" Grid.Row="5" Grid.Column="3"/>
+                <Button Content="1/x" Grid.Row="1" Grid.Column="0"/>
+                <Button Content="X²" Grid.Row="1" Grid.Column="1"/>
+                <Button Content="²√X" Grid.Row="1" Grid.Column="2"/>
+                <Button Content="/" Grid.Row="1" Grid.Column="3"/>
 
-            <Button Content="4" Grid.Row="6" Grid.Column="0"/>
-            <Button Content="5" Grid.Row="6" Grid.Column="1"/>
-            <Button Content="6" Grid.Row="6" Grid.Column="2"/>
-            <Button Content="-" Grid.Row="6" Grid.Column="3"/>
+                <!-- Numerical Buttons -->
+                <Button Content="7" Grid.Row="2" Grid.Column="0" Click="Number_Click"/>
+                <Button Content="8" Grid.Row="2" Grid.Column="1" Click="Number_Click"/>
+                <Button Content="9" Grid.Row="2" Grid.Column="2" Click="Number_Click"/>
+                <Button Content="*" Grid.Row="2" Grid.Column="3" />
 
-            <Button Content="1" Grid.Row="7" Grid.Column="0"/>
-            <Button Content="2" Grid.Row="7" Grid.Column="1"/>
-            <Button Content="3" Grid.Row="7" Grid.Column="2"/>
-            <Button Content="+" Grid.Row="7" Grid.Column="3"/>
+                <Button Content="4" Grid.Row="3" Grid.Column="0" Click="Number_Click"/>
+                <Button Content="5" Grid.Row="3" Grid.Column="1" Click="Number_Click"/>
+                <Button Content="6" Grid.Row="3" Grid.Column="2" Click="Number_Click"/>
+                <Button Content="-" Grid.Row="3" Grid.Column="3"/>
 
-            <Button Content="+/-" Grid.Row="8" Grid.Column="0"/>
-            <Button Content="0" Grid.Row="8" Grid.Column="1"/>
-            <Button Content="." Grid.Row="8" Grid.Column="2"/>
-            <Button Content="=" Grid.Row="8" Grid.Column="3"/>
+                <Button Content="1" Grid.Row="4" Grid.Column="0" Click="Number_Click"/>
+                <Button Content="2" Grid.Row="4" Grid.Column="1" Click="Number_Click"/>
+                <Button Content="3" Grid.Row="4" Grid.Column="2" Click="Number_Click"/>
+                <Button Content="+" Grid.Row="4" Grid.Column="3"/>
+
+                <Button Content="+/-" Grid.Row="5" Grid.Column="0" Click="ToggleSign_Click"/>
+                <Button Content="0" Grid.Row="5" Grid.Column="1" Click="Number_Click"/>
+                <Button Content="." Grid.Row="5" Grid.Column="2" Click="Number_Click"/>
+                <Button Content="=" Grid.Row="5" Grid.Column="3"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

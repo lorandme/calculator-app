@@ -21,9 +21,56 @@ namespace calculator_app
             InitializeComponent();
         }
 
-        private void Button_Click()
+        private void Number_Click(object sender, RoutedEventArgs e)
         {
+            Button button = sender as Button;
+            if (button == null) return;
 
+            string number = button.Content.ToString();
+
+            if (DisplayText.Text == "0" && number != ".")
+            {
+                DisplayText.Text = number;
+            }
+            else if (number == "." && DisplayText.Text.Contains("."))
+            {
+                return;
+            }
+            else
+            {
+                DisplayText.Text += number;
+            }
         }
+
+        private void ToggleSign_Click(object sender, RoutedEventArgs e)
+        {
+            if (DisplayText.Text == "0" || DisplayText.Text == "") return;
+
+            if (DisplayText.Text.StartsWith("-"))
+                DisplayText.Text = DisplayText.Text.Substring(1);
+            else
+                DisplayText.Text = "-" + DisplayText.Text; 
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = "0";
+        }
+
+        private void ClearEntry_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = "0";
+        }
+
+        private void Backspace_Click(object sender, RoutedEventArgs e)
+        {
+            if (DisplayText.Text.Length > 1)
+                DisplayText.Text = DisplayText.Text.Substring(0, DisplayText.Text.Length - 1);
+            else
+                DisplayText.Text = "0"; 
+        }
+
+
+
     }
 }
