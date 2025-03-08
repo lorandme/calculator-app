@@ -91,7 +91,5 @@ namespace calculator_app
                 DisplayText.Text = "0"; 
         }
 
-
-
     }
 }
