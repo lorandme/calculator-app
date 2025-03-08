@@ -42,6 +42,27 @@ namespace calculator_app
             }
         }
 
+        private void Operator_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button == null) return;
+
+            string operatorSymbol = button.Content.ToString();
+
+            if (DisplayText.Text.Length == 0 ||
+                DisplayText.Text.EndsWith(" ") ||   
+                DisplayText.Text.EndsWith("+") ||
+                DisplayText.Text.EndsWith("-") ||
+                DisplayText.Text.EndsWith("*") ||
+                DisplayText.Text.EndsWith("/"))
+            {
+                return;  
+            }
+
+            DisplayText.Text += " " + operatorSymbol + " ";
+        }
+
+
         private void ToggleSign_Click(object sender, RoutedEventArgs e)
         {
             if (DisplayText.Text == "0" || DisplayText.Text == "") return;

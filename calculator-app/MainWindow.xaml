@@ -89,23 +89,23 @@
                 <Button Content="1/x" Grid.Row="1" Grid.Column="0"/>
                 <Button Content="X²" Grid.Row="1" Grid.Column="1"/>
                 <Button Content="²√X" Grid.Row="1" Grid.Column="2"/>
-                <Button Content="/" Grid.Row="1" Grid.Column="3"/>
+                <Button Content="/" Grid.Row="1" Grid.Column="3" Click="Operator_Click"/>
 
                 <!-- Numerical Buttons -->
                 <Button Content="7" Grid.Row="2" Grid.Column="0" Click="Number_Click"/>
                 <Button Content="8" Grid.Row="2" Grid.Column="1" Click="Number_Click"/>
                 <Button Content="9" Grid.Row="2" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="*" Grid.Row="2" Grid.Column="3" />
+                <Button Content="*" Grid.Row="2" Grid.Column="3" Click="Operator_Click"/>
 
                 <Button Content="4" Grid.Row="3" Grid.Column="0" Click="Number_Click"/>
                 <Button Content="5" Grid.Row="3" Grid.Column="1" Click="Number_Click"/>
                 <Button Content="6" Grid.Row="3" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="-" Grid.Row="3" Grid.Column="3"/>
+                <Button Content="-" Grid.Row="3" Grid.Column="3" Click="Operator_Click"/>
 
                 <Button Content="1" Grid.Row="4" Grid.Column="0" Click="Number_Click"/>
                 <Button Content="2" Grid.Row="4" Grid.Column="1" Click="Number_Click"/>
                 <Button Content="3" Grid.Row="4" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="+" Grid.Row="4" Grid.Column="3"/>
+                <Button Content="+" Grid.Row="4" Grid.Column="3" Click="Operator_Click"/>
 
                 <Button Content="+/-" Grid.Row="5" Grid.Column="0" Click="ToggleSign_Click"/>
                 <Button Content="0" Grid.Row="5" Grid.Column="1" Click="Number_Click"/>
