@@ -94,15 +94,21 @@ namespace calculator_app
 
         public string Backspace(string currentDisplay)
         {
+            if (currentDisplay == "Error" || currentDisplay == "NaN" || currentDisplay == "-NaN")
+            {
+                return "0";
+            }
+
             if (currentDisplay.Length > 1)
             {
-                if (currentDisplay[^1] == '.') _hasDecimal = false;
                 return currentDisplay.Substring(0, currentDisplay.Length - 1);
             }
+
             return "0";
         }
 
-    public string Invert(string currentDisplay)
+
+        public string Invert(string currentDisplay)
         {
             if (double.TryParse(currentDisplay, out double value) && value != 0)
             {
