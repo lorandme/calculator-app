@@ -56,5 +56,26 @@ namespace calculator_app
         {
             DisplayText.Text = _calculator.Backspace(DisplayText.Text);
         }
+
+        private void Invert_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = _calculator.Invert(DisplayText.Text);
+        }
+
+        private void Square_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = _calculator.Square(DisplayText.Text);
+        }
+
+        private void SquareRoot_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = _calculator.SquareRoot(DisplayText.Text);
+        }
+
+        private void Percentage_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = _calculator.Percentage(DisplayText.Text);
+        }
+
     }
 }

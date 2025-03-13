@@ -101,5 +101,42 @@ namespace calculator_app
             }
             return "0";
         }
+
+    public string Invert(string currentDisplay)
+        {
+            if (double.TryParse(currentDisplay, out double value) && value != 0)
+            {
+                return (1 / value).ToString(CultureInfo.InvariantCulture);
+            }
+            return "Error";
+        }
+
+        public string Square(string currentDisplay)
+        {
+            if (double.TryParse(currentDisplay, out double value))
+            {
+                return (value * value).ToString(CultureInfo.InvariantCulture);
+            }
+            return currentDisplay;
+        }
+
+        public string SquareRoot(string currentDisplay)
+        {
+            if (double.TryParse(currentDisplay, out double value) && value >= 0)
+            {
+                return Math.Sqrt(value).ToString(CultureInfo.InvariantCulture);
+            }
+            return "Error";
+        }
+
+        public string Percentage(string currentDisplay)
+        {
+            if (double.TryParse(currentDisplay, out double value))
+            {
+                return (value / 100).ToString(CultureInfo.InvariantCulture);
+            }
+            return currentDisplay;
+        }
+
     }
 }
