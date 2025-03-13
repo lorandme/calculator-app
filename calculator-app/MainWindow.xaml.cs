@@ -9,13 +9,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace calculator_app
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private CalculatorLogic _calculator = new CalculatorLogic();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -23,73 +23,38 @@ namespace calculator_app
 
         private void Number_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            if (button == null) return;
-
-            string number = button.Content.ToString();
-
-            if (DisplayText.Text == "0" && number != ".")
+            if (sender is Button button)
             {
-                DisplayText.Text = number;
-            }
-            else if (number == "." && DisplayText.Text.Contains("."))
-            {
-                return;
-            }
-            else
-            {
-                DisplayText.Text += number;
+                DisplayText.Text = _calculator.InputNumber(button.Content.ToString(), DisplayText.Text);
             }
         }
 
         private void Operator_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            if (button == null) return;
-
-            string operatorSymbol = button.Content.ToString();
-
-            if (DisplayText.Text.Length == 0 ||
-                DisplayText.Text.EndsWith(" ") ||   
-                DisplayText.Text.EndsWith("+") ||
-                DisplayText.Text.EndsWith("-") ||
-                DisplayText.Text.EndsWith("*") ||
-                DisplayText.Text.EndsWith("/"))
+            if (sender is Button button)
             {
-                return;  
+                DisplayText.Text = _calculator.InputOperator(button.Content.ToString(), DisplayText.Text);
             }
-
-            DisplayText.Text += " " + operatorSymbol + " ";
         }
-
 
         private void ToggleSign_Click(object sender, RoutedEventArgs e)
         {
-            if (DisplayText.Text == "0" || DisplayText.Text == "") return;
-
-            if (DisplayText.Text.StartsWith("-"))
-                DisplayText.Text = DisplayText.Text.Substring(1);
-            else
-                DisplayText.Text = "-" + DisplayText.Text; 
+            DisplayText.Text = _calculator.ToggleSign(DisplayText.Text);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            DisplayText.Text = "0";
+            DisplayText.Text = _calculator.Clear();
         }
 
         private void ClearEntry_Click(object sender, RoutedEventArgs e)
         {
-            DisplayText.Text = "0";
+            DisplayText.Text = _calculator.Clear();
         }
 
         private void Backspace_Click(object sender, RoutedEventArgs e)
         {
-            if (DisplayText.Text.Length > 1)
-                DisplayText.Text = DisplayText.Text.Substring(0, DisplayText.Text.Length - 1);
-            else
-                DisplayText.Text = "0"; 
+            DisplayText.Text = _calculator.Backspace(DisplayText.Text);
         }
-
     }
 }
