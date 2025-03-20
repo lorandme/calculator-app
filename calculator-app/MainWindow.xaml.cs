@@ -1,13 +1,6 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Globalization;
 
 namespace calculator_app
@@ -16,18 +9,20 @@ namespace calculator_app
     {
         private CalculatorLogic _calculator = new CalculatorLogic();
         private CalculatorSettings _settings = CalculatorSettings.Load();
+
         public MainWindow()
         {
             InitializeComponent();
 
-            // Load settings
             DigitGroupingMenuItem.IsChecked = _settings.DigitGroupingEnabled;
 
-            // Add key event handlers
+            // adauga handler-e pentru evenimente de la tastatura
             KeyDown += MainWindow_KeyDown;
         }
+
         private void DigitGrouping_Changed(object sender, RoutedEventArgs e)
         {
+            // actualizeaza setarea pentru gruparea cifrelor si salveaza
             _settings.DigitGroupingEnabled = DigitGroupingMenuItem.IsChecked;
             _settings.Save();
             FormatDisplayIfNumber();
@@ -35,57 +30,39 @@ namespace calculator_app
 
         private void FormatDisplayIfNumber()
         {
-            // Check if the display contains a valid number
+            // verifica daca textul din display este un numar valid
             if (double.TryParse(DisplayText.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
             {
                 if (_settings.DigitGroupingEnabled)
                 {
-                    // Only apply grouping to the integer part
+                    // aplica gruparea cifrelor doar pentru partea intreaga
                     string text = DisplayText.Text;
                     bool hasDecimalPoint = text.Contains('.');
 
                     if (hasDecimalPoint)
                     {
                         string[] parts = text.Split('.');
-                        // Format only the integer part with grouping
+                        // formateaza partea intreaga cu gruparea cifrelor
                         string integerPart = double.Parse(parts[0], CultureInfo.InvariantCulture)
                             .ToString("N0", CultureInfo.CurrentCulture);
-                        // Keep decimal part as is
+                        // pastreaza partea zecimala nemodificata
                         DisplayText.Text = integerPart + "." + parts[1];
                     }
                     else
                     {
-                        // No decimal, safe to format the whole number
+                        // daca nu exista punct zecimal, formateaza intregul numar
                         DisplayText.Text = value.ToString("N0", CultureInfo.CurrentCulture);
                     }
                 }
                 else
                 {
-                    // Ensure we have plain number without grouping
+                    // asigura ca numarul este afisat fara gruparea cifrelor
                     DisplayText.Text = value.ToString(CultureInfo.InvariantCulture);
                 }
             }
-            // If not a valid number, leave as is
         }
 
-        private void UpdateDisplay()
-        {
-            // Don't format if the text isn't a valid number
-            if (!double.TryParse(DisplayText.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
-                return;
-
-            if (_settings.DigitGroupingEnabled)
-            {
-                // Use the current culture's number format with digit grouping
-                DisplayText.Text = value.ToString("N", CultureInfo.CurrentCulture);
-            }
-            else
-            {
-                // Use invariant culture without digit grouping
-                DisplayText.Text = value.ToString(CultureInfo.InvariantCulture);
-            }
-        }
-
+        
         private void About_Click(object sender, RoutedEventArgs e)
         {
             string name = "Menyhárt Loránd";
@@ -96,6 +73,7 @@ namespace calculator_app
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);
         }
+
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             bool handled = true;
@@ -180,54 +158,57 @@ namespace calculator_app
 
         private void HandleNumberInput(string number)
         {
+            // actualizeaza display-ul cu numarul introdus
             DisplayText.Text = _calculator.InputNumber(number, DisplayText.Text);
 
-            // Only apply formatting if digit grouping is enabled and not a decimal point
+            // aplica formatarea doar daca gruparea cifrelor este activata si nu este un punct zecimal
             if (_settings.DigitGroupingEnabled && number != ".")
             {
                 FormatDisplayIfNumber();
             }
-
         }
 
         private void HandleOperatorInput(string operatorSymbol)
         {
             if (operatorSymbol == "=")
             {
+                // calculeaza si afiseaza rezultatul
                 DisplayText.Text = _calculator.CalculateResult(DisplayText.Text);
-
             }
             else
             {
+                // actualizeaza display-ul cu operatorul introdus
                 DisplayText.Text = _calculator.InputOperator(operatorSymbol, DisplayText.Text);
             }
-            // Format the result if digit grouping is enabled
+
+            // formateaza rezultatul daca gruparea cifrelor este activata
             if (_settings.DigitGroupingEnabled)
             {
                 FormatDisplayIfNumber();
             }
-
         }
-
 
         private void HandleClear()
         {
+            // sterge totul de pe display
             DisplayText.Text = _calculator.Clear();
         }
 
         private void HandleBackspace()
         {
+            // sterge ultima cifra de pe display
             DisplayText.Text = _calculator.Backspace(DisplayText.Text);
         }
 
         private void Number_Click(object sender, RoutedEventArgs e)
         {
+            // gestioneaza click-ul pe butoanele numerice
             if (sender is Button button)
             {
                 string number = button.Content.ToString();
                 DisplayText.Text = _calculator.InputNumber(number, DisplayText.Text);
 
-                // Only apply formatting if digit grouping is enabled and not a decimal point
+                // aplica formatarea doar daca gruparea cifrelor este activata si nu este un punct zecimal
                 if (_settings.DigitGroupingEnabled && number != ".")
                 {
                     FormatDisplayIfNumber();
@@ -237,9 +218,9 @@ namespace calculator_app
 
         private void Operator_Click(object sender, RoutedEventArgs e)
         {
+            // gestioneaza click-ul pe butoanele de operatori
             if (sender is Button button)
             {
-                
                 string op = button.Content.ToString();
                 if (op == "=")
                 {
@@ -250,15 +231,17 @@ namespace calculator_app
                     DisplayText.Text = _calculator.InputOperator(op, DisplayText.Text);
                 }
             }
+
+            // formateaza rezultatul daca gruparea cifrelor este activata
             if (_settings.DigitGroupingEnabled)
             {
                 FormatDisplayIfNumber();
             }
-
         }
 
         private void ToggleSign_Click(object sender, RoutedEventArgs e)
         {
+            // schimba semnul numarului afisat
             DisplayText.Text = _calculator.ToggleSign(DisplayText.Text);
             if (_settings.DigitGroupingEnabled)
             {
@@ -268,21 +251,25 @@ namespace calculator_app
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
+            // sterge totul de pe display
             DisplayText.Text = _calculator.Clear();
         }
 
         private void ClearEntry_Click(object sender, RoutedEventArgs e)
         {
+            // sterge ultima intrare de pe display
             DisplayText.Text = _calculator.ClearEntry();
         }
 
         private void Backspace_Click(object sender, RoutedEventArgs e)
         {
+            // sterge ultima cifra de pe display
             DisplayText.Text = _calculator.Backspace(DisplayText.Text);
         }
 
         private void Invert_Click(object sender, RoutedEventArgs e)
         {
+            // inverseaza numarul afisat (1/x)
             DisplayText.Text = _calculator.Invert(DisplayText.Text);
             if (_settings.DigitGroupingEnabled)
             {
@@ -292,6 +279,7 @@ namespace calculator_app
 
         private void Square_Click(object sender, RoutedEventArgs e)
         {
+            // calculeaza patratul numarului afisat
             DisplayText.Text = _calculator.Square(DisplayText.Text);
             if (_settings.DigitGroupingEnabled)
             {
@@ -301,6 +289,7 @@ namespace calculator_app
 
         private void SquareRoot_Click(object sender, RoutedEventArgs e)
         {
+            // calculeaza radacina patrata a numarului afisat
             DisplayText.Text = _calculator.SquareRoot(DisplayText.Text);
             if (_settings.DigitGroupingEnabled)
             {
@@ -310,6 +299,7 @@ namespace calculator_app
 
         private void Percentage_Click(object sender, RoutedEventArgs e)
         {
+            // calculeaza procentul numarului afisat
             DisplayText.Text = _calculator.Percentage(DisplayText.Text);
             if (_settings.DigitGroupingEnabled)
             {
@@ -317,47 +307,55 @@ namespace calculator_app
             }
         }
 
-        // Memory operations
+        // operatii cu memoria
         private void MemoryClear_Click(object sender, RoutedEventArgs e)
         {
+            // sterge toate valorile din memorie
             _calculator.MemoryClear();
         }
 
         private void MemoryAdd_Click(object sender, RoutedEventArgs e)
         {
+            // adauga valoarea curenta la memoria calculatorului
             _calculator.MemoryAdd(DisplayText.Text);
         }
 
         private void MemorySubtract_Click(object sender, RoutedEventArgs e)
         {
+            // scade valoarea curenta din memoria calculatorului
             _calculator.MemorySubtract(DisplayText.Text);
         }
 
         private void MemoryStore_Click(object sender, RoutedEventArgs e)
         {
+            // salveaza valoarea curenta in memorie
             _calculator.MemoryStore(DisplayText.Text);
         }
 
         private void MemoryRecall_Click(object sender, RoutedEventArgs e)
         {
+            // recupereaza valoarea din memorie si o afiseaza
             DisplayText.Text = _calculator.MemoryRecall();
         }
 
         private void MemoryList_Click(object sender, RoutedEventArgs e)
         {
+            // afiseaza lista cu valorile din memorie
             ShowMemoryStackWindow();
         }
 
         private void ShowMemoryStackWindow()
         {
+            // obtine stiva de memorie
             var memoryStack = _calculator.GetMemoryStack();
             if (memoryStack.Count == 0)
             {
+                // daca memoria este goala, afiseaza un mesaj
                 MessageBox.Show("Memory is empty.", "Memory", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
-            // Create a simple window to display the memory stack
+            // creeaza o fereastra simpla pentru afisarea stivei de memorie
             var memoryWindow = new Window
             {
                 Title = "Memory Stack",
@@ -371,16 +369,18 @@ namespace calculator_app
             var stackPanel = new StackPanel();
             var listBox = new ListBox();
 
+            // adauga fiecare valoare din memorie in lista
             foreach (var value in memoryStack)
             {
                 var item = new ListBoxItem
                 {
-                    Content = value.ToString(CultureInfo.InvariantCulture),
-                    Padding = new Thickness(5)
+                    Content = value.ToString(CultureInfo.InvariantCulture), // afiseaza valoarea fara gruparea cifrelor
+                    Padding = new Thickness(5) // adauga un spatiu intre elemente
                 };
                 listBox.Items.Add(item);
             }
 
+            // gestioneaza selectia unei valori din lista
             listBox.SelectionChanged += (s, e) =>
             {
                 if (listBox.SelectedItem is ListBoxItem selectedItem)
@@ -397,6 +397,7 @@ namespace calculator_app
 
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
+            // calculeaza si afiseaza rezultatul
             DisplayText.Text = _calculator.CalculateResult(DisplayText.Text);
 
             if (_settings.DigitGroupingEnabled)
@@ -405,16 +406,17 @@ namespace calculator_app
             }
         }
 
-
-        // CUT,COPY,PASTE OPERATIONS
+        // operatii de taiere, copiere si lipire
         private void Cut_Click(object sender, RoutedEventArgs e)
         {
+            // taie textul din display si il copiaza in clipboard
             Copy_Click(sender, e);
             DisplayText.Text = "0";
         }
 
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
+            // copiaza textul din display in clipboard
             Clipboard.SetText(DisplayText.Text);
         }
 
@@ -422,9 +424,10 @@ namespace calculator_app
         {
             try
             {
+                // incearca sa lipesti textul din clipboard in display
                 string clipboardText = Clipboard.GetText();
 
-                // Validate if the text is a number
+                // valideaza daca textul este un numar
                 if (double.TryParse(clipboardText, NumberStyles.Any, CultureInfo.InvariantCulture, out _))
                 {
                     DisplayText.Text = clipboardText;
@@ -437,9 +440,8 @@ namespace calculator_app
             }
             catch
             {
-                // Ignore paste errors
+                // ignora erorile de lipire
             }
         }
     }
-
 }
