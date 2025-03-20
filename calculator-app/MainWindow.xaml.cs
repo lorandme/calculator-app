@@ -15,13 +15,75 @@ namespace calculator_app
     public partial class MainWindow : Window
     {
         private CalculatorLogic _calculator = new CalculatorLogic();
-
+        private CalculatorSettings _settings = CalculatorSettings.Load();
         public MainWindow()
         {
             InitializeComponent();
 
+            // Load settings
+            DigitGroupingMenuItem.IsChecked = _settings.DigitGroupingEnabled;
+
             // Add key event handlers
             KeyDown += MainWindow_KeyDown;
+        }
+        private void DigitGrouping_Changed(object sender, RoutedEventArgs e)
+        {
+            _settings.DigitGroupingEnabled = DigitGroupingMenuItem.IsChecked;
+            _settings.Save();
+            FormatDisplayIfNumber();
+        }
+
+        private void FormatDisplayIfNumber()
+        {
+            // Check if the display contains a valid number
+            if (double.TryParse(DisplayText.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
+            {
+                if (_settings.DigitGroupingEnabled)
+                {
+                    // Only apply grouping to the integer part
+                    string text = DisplayText.Text;
+                    bool hasDecimalPoint = text.Contains('.');
+
+                    if (hasDecimalPoint)
+                    {
+                        string[] parts = text.Split('.');
+                        // Format only the integer part with grouping
+                        string integerPart = double.Parse(parts[0], CultureInfo.InvariantCulture)
+                            .ToString("N0", CultureInfo.CurrentCulture);
+                        // Keep decimal part as is
+                        DisplayText.Text = integerPart + "." + parts[1];
+                    }
+                    else
+                    {
+                        // No decimal, safe to format the whole number
+                        DisplayText.Text = value.ToString("N0", CultureInfo.CurrentCulture);
+                    }
+                }
+                else
+                {
+                    // Ensure we have plain number without grouping
+                    DisplayText.Text = value.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+            // If not a valid number, leave as is
+        }
+
+        private void UpdateDisplay()
+        {
+            // Don't format if the text isn't a valid number
+            if (!double.TryParse(DisplayText.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
+                return;
+
+            if (_settings.DigitGroupingEnabled)
+            {
+                // Use the current culture's number format with digit grouping
+                DisplayText.Text = value.ToString("N", CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                // Use invariant culture without digit grouping
+                DisplayText.Text = value.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
@@ -29,7 +91,7 @@ namespace calculator_app
             string name = "Menyhárt Loránd";
             string group = "10LF233";
 
-            MessageBox.Show($"Calculator\n\nCreated by: {name}\n{group}",
+            MessageBox.Show($"Calculator\n\nCreated by: {name},\n{group}",
                             "About",
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);
@@ -119,6 +181,13 @@ namespace calculator_app
         private void HandleNumberInput(string number)
         {
             DisplayText.Text = _calculator.InputNumber(number, DisplayText.Text);
+
+            // Only apply formatting if digit grouping is enabled and not a decimal point
+            if (_settings.DigitGroupingEnabled && number != ".")
+            {
+                FormatDisplayIfNumber();
+            }
+
         }
 
         private void HandleOperatorInput(string operatorSymbol)
@@ -126,12 +195,20 @@ namespace calculator_app
             if (operatorSymbol == "=")
             {
                 DisplayText.Text = _calculator.CalculateResult(DisplayText.Text);
+
             }
             else
             {
                 DisplayText.Text = _calculator.InputOperator(operatorSymbol, DisplayText.Text);
             }
+            // Format the result if digit grouping is enabled
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
+
         }
+
 
         private void HandleClear()
         {
@@ -147,7 +224,14 @@ namespace calculator_app
         {
             if (sender is Button button)
             {
-                HandleNumberInput(button.Content.ToString());
+                string number = button.Content.ToString();
+                DisplayText.Text = _calculator.InputNumber(number, DisplayText.Text);
+
+                // Only apply formatting if digit grouping is enabled and not a decimal point
+                if (_settings.DigitGroupingEnabled && number != ".")
+                {
+                    FormatDisplayIfNumber();
+                }
             }
         }
 
@@ -155,6 +239,7 @@ namespace calculator_app
         {
             if (sender is Button button)
             {
+                
                 string op = button.Content.ToString();
                 if (op == "=")
                 {
@@ -165,11 +250,20 @@ namespace calculator_app
                     DisplayText.Text = _calculator.InputOperator(op, DisplayText.Text);
                 }
             }
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
+
         }
 
         private void ToggleSign_Click(object sender, RoutedEventArgs e)
         {
             DisplayText.Text = _calculator.ToggleSign(DisplayText.Text);
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
@@ -190,21 +284,37 @@ namespace calculator_app
         private void Invert_Click(object sender, RoutedEventArgs e)
         {
             DisplayText.Text = _calculator.Invert(DisplayText.Text);
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
         }
 
         private void Square_Click(object sender, RoutedEventArgs e)
         {
             DisplayText.Text = _calculator.Square(DisplayText.Text);
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
         }
 
         private void SquareRoot_Click(object sender, RoutedEventArgs e)
         {
             DisplayText.Text = _calculator.SquareRoot(DisplayText.Text);
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
         }
 
         private void Percentage_Click(object sender, RoutedEventArgs e)
         {
             DisplayText.Text = _calculator.Percentage(DisplayText.Text);
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
         }
 
         // Memory operations
@@ -288,7 +398,13 @@ namespace calculator_app
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             DisplayText.Text = _calculator.CalculateResult(DisplayText.Text);
+
+            if (_settings.DigitGroupingEnabled)
+            {
+                FormatDisplayIfNumber();
+            }
         }
+
 
         // CUT,COPY,PASTE OPERATIONS
         private void Cut_Click(object sender, RoutedEventArgs e)
@@ -312,6 +428,11 @@ namespace calculator_app
                 if (double.TryParse(clipboardText, NumberStyles.Any, CultureInfo.InvariantCulture, out _))
                 {
                     DisplayText.Text = clipboardText;
+                }
+
+                if (_settings.DigitGroupingEnabled)
+                {
+                    FormatDisplayIfNumber();
                 }
             }
             catch

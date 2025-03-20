@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Calculator" Height="550" Width="350"
         ResizeMode="NoResize"
-        KeyDown="MainWindow_KeyDown">
+        KeyDown="MainWindow_KeyDown"
+        Background="#FF1E1E1E"
+        Foreground="White"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,15 +20,15 @@
         </Grid.RowDefinitions>
 
         <!-- Meniu -->
-        <Menu Grid.Row="0">
+        <Menu Grid.Row="0" Background="#FF252526" Foreground="White">
             <MenuItem Header="File">
-                <MenuItem Header="Cut" Click="Cut_Click"/>
-                <MenuItem Header="Copy" Click="Copy_Click"/>
-                <MenuItem Header="Paste" Click="Paste_Click"/>
-                <MenuItem Header="Digit Grouping"/>
+                <MenuItem Header="Cut" Click="Cut_Click" Background="#FF252526" Foreground="White"/>
+                <MenuItem Header="Copy" Click="Copy_Click" Background="#FF252526" Foreground="White"/>
+                <MenuItem Header="Paste" Click="Paste_Click" Background="#FF252526" Foreground="White"/>
+                <MenuItem Header="Digit Grouping" IsCheckable="True" Checked="DigitGrouping_Changed" Unchecked="DigitGrouping_Changed" x:Name="DigitGroupingMenuItem" Background="#FF252526" Foreground="White"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About" Click="About_Click"/>
+                <MenuItem Header="About" Click="About_Click" Background="#FF252526" Foreground="White"/>
             </MenuItem>
         </Menu>
 
@@ -34,10 +37,12 @@
                    Grid.Row="1" 
                    Text="0" FontSize="32" 
                    HorizontalAlignment="Right" VerticalAlignment="Center"
-                   Padding="20" TextWrapping="Wrap"/>
+                   Padding="20" TextWrapping="Wrap"
+                   Foreground="White"/>
+        <!-- White text for display -->
 
         <!-- All Buttons -->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Background="#FF1E1E1E">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <!-- Memory Buttons Row -->
@@ -56,12 +61,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="MC" Grid.Column="0" Height="25" Click="MemoryClear_Click"/>
-                <Button Content="M+" Grid.Column="1" Height="25" Click="MemoryAdd_Click"/>
-                <Button Content="M-" Grid.Column="2" Height="25" Click="MemorySubtract_Click"/>
-                <Button Content="MS" Grid.Column="3" Height="25" Click="MemoryStore_Click"/>
-                <Button Content="MR" Grid.Column="4" Height="25" Click="MemoryRecall_Click"/>
-                <Button Content="M>" Grid.Column="5" Height="25" Click="MemoryList_Click"/>
+                <Button Content="MC" Grid.Column="0" Height="25" Click="MemoryClear_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="M+" Grid.Column="1" Height="25" Click="MemoryAdd_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="M-" Grid.Column="2" Height="25" Click="MemorySubtract_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="MS" Grid.Column="3" Height="25" Click="MemoryStore_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="MR" Grid.Column="4" Height="25" Click="MemoryRecall_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="M>" Grid.Column="5" Height="25" Click="MemoryList_Click" Background="#FF333333" Foreground="White"/>
             </Grid>
 
             <!-- Numerical and Operational Buttons -->
@@ -82,36 +87,36 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Operational Buttons -->
-                <Button Content="%" Grid.Row="0" Grid.Column="0" Click="Percentage_Click"/>
-                <Button Content="CE" Grid.Row="0" Grid.Column="1" Click="ClearEntry_Click"/>
-                <Button Content="C" Grid.Row="0" Grid.Column="2" Click="Clear_Click"/>
-                <Button Content="Backspace" Grid.Row="0" Grid.Column="3" Click="Backspace_Click"/>
+                <Button Content="%" Grid.Row="0" Grid.Column="0" Click="Percentage_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="CE" Grid.Row="0" Grid.Column="1" Click="ClearEntry_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="C" Grid.Row="0" Grid.Column="2" Click="Clear_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="Backspace" Grid.Row="0" Grid.Column="3" Click="Backspace_Click" Background="#FF333333" Foreground="White"/>
 
-                <Button Content="1/x" Grid.Row="1" Grid.Column="0" Click="Invert_Click"/>
-                <Button Content="X²" Grid.Row="1" Grid.Column="1" Click="Square_Click"/>
-                <Button Content="²√X" Grid.Row="1" Grid.Column="2" Click="SquareRoot_Click"/>
-                <Button Content="/" Grid.Row="1" Grid.Column="3" Click="Operator_Click"/>
+                <Button Content="1/x" Grid.Row="1" Grid.Column="0" Click="Invert_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="X²" Grid.Row="1" Grid.Column="1" Click="Square_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="²√X" Grid.Row="1" Grid.Column="2" Click="SquareRoot_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="/" Grid.Row="1" Grid.Column="3" Click="Operator_Click" Background="#FF333333" Foreground="White"/>
 
                 <!-- Numerical Buttons -->
-                <Button Content="7" Grid.Row="2" Grid.Column="0" Click="Number_Click"/>
-                <Button Content="8" Grid.Row="2" Grid.Column="1" Click="Number_Click"/>
-                <Button Content="9" Grid.Row="2" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="*" Grid.Row="2" Grid.Column="3" Click="Operator_Click"/>
+                <Button Content="7" Grid.Row="2" Grid.Column="0" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="8" Grid.Row="2" Grid.Column="1" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="9" Grid.Row="2" Grid.Column="2" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="*" Grid.Row="2" Grid.Column="3" Click="Operator_Click" Background="#FF333333" Foreground="White"/>
 
-                <Button Content="4" Grid.Row="3" Grid.Column="0" Click="Number_Click"/>
-                <Button Content="5" Grid.Row="3" Grid.Column="1" Click="Number_Click"/>
-                <Button Content="6" Grid.Row="3" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="-" Grid.Row="3" Grid.Column="3" Click="Operator_Click"/>
+                <Button Content="4" Grid.Row="3" Grid.Column="0" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="5" Grid.Row="3" Grid.Column="1" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="6" Grid.Row="3" Grid.Column="2" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="-" Grid.Row="3" Grid.Column="3" Click="Operator_Click" Background="#FF333333" Foreground="White"/>
 
-                <Button Content="1" Grid.Row="4" Grid.Column="0" Click="Number_Click"/>
-                <Button Content="2" Grid.Row="4" Grid.Column="1" Click="Number_Click"/>
-                <Button Content="3" Grid.Row="4" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="+" Grid.Row="4" Grid.Column="3" Click="Operator_Click"/>
+                <Button Content="1" Grid.Row="4" Grid.Column="0" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="2" Grid.Row="4" Grid.Column="1" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="3" Grid.Row="4" Grid.Column="2" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="+" Grid.Row="4" Grid.Column="3" Click="Operator_Click" Background="#FF333333" Foreground="White"/>
 
-                <Button Content="+/-" Grid.Row="5" Grid.Column="0" Click="ToggleSign_Click"/>
-                <Button Content="0" Grid.Row="5" Grid.Column="1" Click="Number_Click"/>
-                <Button Content="." Grid.Row="5" Grid.Column="2" Click="Number_Click"/>
-                <Button Content="=" Grid.Row="5" Grid.Column="3" Click="Equals_Click"/>
+                <Button Content="+/-" Grid.Row="5" Grid.Column="0" Click="ToggleSign_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="0" Grid.Row="5" Grid.Column="1" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="." Grid.Row="5" Grid.Column="2" Click="Number_Click" Background="#FF333333" Foreground="White"/>
+                <Button Content="=" Grid.Row="5" Grid.Column="3" Click="Equals_Click" Background="#FF333333" Foreground="White"/>
             </Grid>
         </Grid>
     </Grid>
