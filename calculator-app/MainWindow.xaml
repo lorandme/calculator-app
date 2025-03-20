@@ -19,9 +19,9 @@
         <!-- Meniu -->
         <Menu Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem Header="Cut"/>
-                <MenuItem Header="Copy"/>
-                <MenuItem Header="Paste"/>
+                <MenuItem Header="Cut" Click="Cut_Click"/>
+                <MenuItem Header="Copy" Click="Copy_Click"/>
+                <MenuItem Header="Paste" Click="Paste_Click"/>
                 <MenuItem Header="Digit Grouping"/>
             </MenuItem>
             <MenuItem Header="Help">

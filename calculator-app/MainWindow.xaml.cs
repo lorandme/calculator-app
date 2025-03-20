@@ -279,5 +279,36 @@ namespace calculator_app
         {
             DisplayText.Text = _calculator.CalculateResult(DisplayText.Text);
         }
+
+        // CUT,COPY,PASTE OPERATIONS
+        private void Cut_Click(object sender, RoutedEventArgs e)
+        {
+            Copy_Click(sender, e);
+            DisplayText.Text = "0";
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(DisplayText.Text);
+        }
+
+        private void Paste_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string clipboardText = Clipboard.GetText();
+
+                // Validate if the text is a number
+                if (double.TryParse(clipboardText, NumberStyles.Any, CultureInfo.InvariantCulture, out _))
+                {
+                    DisplayText.Text = clipboardText;
+                }
+            }
+            catch
+            {
+                // Ignore paste errors
+            }
+        }
     }
+
 }
