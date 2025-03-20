@@ -24,6 +24,16 @@ namespace calculator_app
             KeyDown += MainWindow_KeyDown;
         }
 
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            string name = "Menyhárt Loránd";
+            string group = "10LF233";
+
+            MessageBox.Show($"Calculator\n\nCreated by: {name}\n{group}",
+                            "About",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+        }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             bool handled = true;

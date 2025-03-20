@@ -25,7 +25,7 @@
                 <MenuItem Header="Digit Grouping"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About"/>
+                <MenuItem Header="About" Click="About_Click"/>
             </MenuItem>
         </Menu>
 
