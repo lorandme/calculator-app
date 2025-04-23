@@ -36,20 +36,6 @@ Calculator App is a feature-rich Windows desktop calculator application built wi
 2. Extract the ZIP file to your preferred location
 3. Run `calculator-app.exe` to start the application
 
-## Building from Source
-1. Clone the repository
-2. Open the solution in Visual Studio 2022 or later
-3. Build the solution using the Build menu
-4. Run the application using the Debug menu or by pressing F5
-
-## Keyboard Shortcuts
-- Numbers: 0-9 keys or numpad
-- Decimal point: . (period) or numpad decimal
-- Operations: +, -, *, / keys
-- Equals: Enter key
-- Clear: Escape key
-- Backspace: Backspace key
-
 ## Settings
 The application saves user preferences (like digit grouping) in a JSON settings file located in the application directory.
 
